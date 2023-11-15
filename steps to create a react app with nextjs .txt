@@ -1,0 +1,333 @@
+create a folder -> open terminal init 
+now run command -> npx create-next-app
+now give folder name 
+Now choose these options for ---> 
+typescript no
+eslint no
+tailwind yes
+src no 
+app router yes 
+
+now open your project in vs code and in terminal run command -> npm run dev 
+
+now on localhost:3000 the thing that you see is the layout in page.js file of app folder 
+
+now delete everything in the page.js file and do rafce init and because of the extension a premade react component will appear onscreen
+
+now as we are going to use tailwind css go to the globals.css file and delete everything except first the lines i.e ->
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+now to show the working of useState and value updation we need to remember some things that for client side rendering only we need to
+mention it on the top  otherwise the code will give error like -> "use client"; 
+
+now if we want to have a variable with some value we make use of useState hook as we also are desiring to update its value using a 
+button i.e-> const [marks, setmarks] = useState(10);
+
+now we display the value of these marks inside our return statement ->  <h1>My Marks are {marks}</h1>
+
+now make a button to update the value  and have a function to handlechange -> <button onClick={handlebtnchange}>Update Value</button>
+
+
+and we define the function handlebtnchange and make use of the set function to update the value ->
+const handlebtnchange =()=>{
+  alert("my orignal marks value of " + marks + " is now going to be changed to 50")
+  setmarks(50);
+}
+
+---------------------------------------------------------------
+
+"use client";
+import React,{useState} from 'react'
+
+const page = () => {
+
+const [marks, setmarks] = useState(10);
+
+const handlebtnchange =()=>{
+  alert("my orignal marks value of " + marks + " is now going to be changed to 50")
+  setmarks(50);
+}
+  return (
+    <div>
+    <h1>My Marks are {marks}</h1>
+    <button onClick={handlebtnchange}>Update Value</button>
+    </div>
+  )
+}
+
+export default page
+
+---------------------------------------------------------------
+
+
+Now outside we make a seprate folder called Components -> inside which we make a file -> Header.js and do rafce
+
+now as we know that this page.js file is similar to the app.js file of a normal react app so we now start by importing and using this 
+header component that we just made inside our page.js 
+start by commenting everything out in our page.js file then do rafce 
+
+now we code for header.js file and use tailwind classes to make the header from scratch->
+i.e----->
+import React from 'react'
+
+const Header = () => {
+  return (
+    <div className='h-16 px-5 bg-green-500 flex items-center justify-between'>
+    <h2>Logo</h2>
+    <div className='flex gap-8'>
+        <h4>About</h4>
+        <h4>Career</h4>
+        <h4>Blog</h4>
+        <h4>Account</h4>
+    </div>
+    </div>
+  )
+}
+
+export default Header
+
+
+now we import this header in our page.js file and also make the use of useState in order to show the passing of data from our
+page.js to header.js file ->
+
+we here are demonstrating the use of props to pass the data to the header 
+we firstly created a user with the help of useState hook and gave it an initial value of "Aditya"
+we then passed in the user to our header from our page.js where we have orignally created the user by -><Header user = {user} />
+
+Then after we access this user in our header.js file by passing props keyword to the header function and then inside the return function
+we display this user by <h2>{props.user}</h2>
+
+"use client";
+import React, { useState } from 'react'
+import Header from '@/Components/Header';
+
+const page = () => {
+  
+  const [user, setuser] = useState("Aditya")
+  return (
+    <div>
+
+<Header user = {user} />
+
+Main Page
+<br />
+{user}
+    </div>
+  )
+}
+
+export default page
+
+
+----------
+import React from 'react'
+
+const Header = (props) => {
+  return (
+    <div className='h-16 px-5 bg-green-500 flex items-center justify-between'>
+    <h2>{props.user}</h2>
+    <div className='flex gap-8'>
+        <h4>About</h4>
+        <h4>Career</h4>
+        <h4>Blog</h4>
+        <h4>Account</h4>
+    </div>
+    </div>
+  )
+}
+
+export default Header
+
+PROPS IN GENERAL MEANS THAT WE ARE PASSING IN THE FLOW OF DATA FROM OUR PARENT TO CHILD COMPONENT 
+
+So till here we learned about props 
+
+Now we start by routing in react 
+-----------------------------------------------------------------------------------------------------------------------------------
+
+remove everything in our page.js or comment our and do rafce again 
+
+NOW we need TO NOTE THAT ROUTING USING NEXT.JS IS DIFFERENT THAN THE NORMAL ROUTING IN REACT JS WHERE WE PREVIOUSLY used to firstly 
+wrap our app component with browserrouter element then we imported routes and route and then inside the wrap of route element we 
+defined our routes and their path to be routed upon 
+
+======================
+BUT HERE WE START BY CREATING COMPONENT PAGES IN OUR APP FOLDER AND DOING SEPRATE RAFCE IN THEM ex -> About , Products , Courses and
+after we renamed the functions in each of the file accordingly we now start to demonstrate our routing process 
+
+now go to Header.js file and there start by importing Link i.e-> import Link from 'next/link'
+
+now below in the return statement we now start by making the use of this Link tag for our actual routing with href
+i.e-> <Link href="/About">About</Link>  
+      <Link href="/Products">Products</Link>
+      <Link href="/Courses">Courses</Link>
+
+
+the overall component code for header now is -> 
+import React from 'react'
+import Link from 'next/link'
+
+const Header = () => {
+  return (
+    <div className='h-16 bg-red-500 flex items-center justify-between'>
+    <h2>Logo</h2>
+    <div className='flex gap-8'>
+      <Link href="/About">About</Link>  
+      <Link href="/Products">Products</Link>
+      <Link href="/Courses">Courses</Link>
+    </div>
+    </div>
+  )
+}
+
+export default Header
+
+and as we already have included header in our page.js we now compelete our routing process successfully and when we tap onto the options
+of our navbar it will reroute the user to the destinantion successfully without any reloading 
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+NOW as a general requirement as we know that the header element will remanin constant everywhere so we do one thing ------>
+i.e  WE GO IN layout.js file which and there we import header.js file at top and before rendering anything else we render our <Header/>
+component there which will now make the header component fix throughout the website 
+ And also remember to comment out the displaying our header component inside our page.js file 
+
+ ->
+ import { Inter } from 'next/font/google'
+import './globals.css'
+import Header from '@/Components/Header'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+      <Header/>
+      {children}
+      
+      </body>
+    </html>
+  )
+}
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Now we demonstrate the use of axios library to make a call to some api 
+axios help in calling apis 
+ Run command -> npm i axios
+
+Now we import axios in our page.js -> import axios from 'axios';
+
+we make use of some random api to demonstrate the use of axios here ex ->  Lorem Picsum 
+go to lorem picsum and copy the link to get images -> https://picsum.photos/v2/list
+
+now in our page.js file create suppose a button named get random images and add an onClick event listener to it which triggers some 
+predefined function which in start for testing purposes just alert some message 
+
+also remember we have " use client " ; at the top 
+
+ex -> const getImages = () => {
+    alert("images fetched !")
+  }
+
+
+    <button onClick={getImages} className='px-5 py-3 bg-green-600 text-white font-bold'>Get Random Images</button>
+
+Now upon a successful alert of the random message we start using axios to fetch the images by triggering the api call 
+
+we now make the function async await which helps us at the time of fetching api as some times there might be delay in getting the 
+DATA from the made api call so instead we now when use async await the function will wait for fetching/receiving the data instead of
+giving error 
+
+inside this async function we used in a try catch block to handle the errors properly and only on a successful response of some data 
+in our console on the tap of the button we move ahead 
+
+i.e-> 
+
+const getImages = async () => {
+    
+    try {
+      const response = await axios.get("https://picsum.photos/v2/list")
+      const data = response.data;
+      console.log(data)
+    } catch (error) {
+      console.log("error in fetching images !!!")
+    }
+  }
+
+============>
+Now as we get the data in our console we are now ready to display the data to the users -> 
+
+Now as we need to display this data being fetched from the api call so inside the function getImages we make use of useState hook 
+const [images, setimages] = useState([])
+
+now we come back inside the function getImages inside it we use the setimages method created above to set data fetched to the images
+or in simple words we set the response of the api call to the setimages function
+i.e-> setimages(data);
+
+now after checking that that we are getting  the data in the console after it on this log statement we are good to go -> 
+setimages(data);
+console.log(images);
+
+
+*************************
+now we have our base data inside the images but INORDER  TO DISPLAY THESE IMAGES / DATA WE WILL BE NEEDING THE MAP FUNCTION TO TARVERSE
+THROUGH THE DATA RECEIVED AND DISPLAY IT ONE BY ONE 
+
+now create a div below the buttons as THIS DIV WILL BE USED TO DISPLAY THE DATA USING MAP FUNCTION -> <div className='p-10'>   </div>
+we use map function to display all the images from the response/data stored in our images which we initialzed as an empty array by the 
+use of useState hook at the starting and then after fetching the data/response using the axios api we store this or we set this data 
+with setimages function to our images 
+
+ <div className='p-10'>
+ {images.map((e,i)=>{
+return  <img key={i} src={e.download_url} alt="api images" 
+  width={300}
+  height={300}
+  className='m-10 rounded inline-block'
+/>
+ })}
+    </div>
+
+ ==================
+ here is the compelete code ->
+
+ "use client"; 
+ import React, { useState } from 'react'
+import axios from 'axios';
+
+
+const page = () => {
+
+  const [images, setimages] = useState([])
+  const getImages = async () => {
+    // alert("images fetched !")
+    try {
+      const response = await axios.get("https://picsum.photos/v2/list")
+      const data = response.data;
+      // console.log(data); 
+      // here we pass in the data/response being received from the api call to this setimages method created above  
+      setimages(data);
+      // console.log(images);
+    } catch (error) {
+      console.log("error in fetching images !!!")
+    }
+  }
+
+  return (
+    <div>page <br />
+    <button onClick={getImages} className='px-5 py-3 bg-green-600 text-white font-bold'>Get Random Images</button>
+    <div className='p-10'>
+ {images.map((e,i)=>{
+return  <img key={i} src={e.download_url} alt="api images" 
+  width={300}
+  height={300}
+  className='m-10 rounded inline-block'
+/>
+ })}
+    </div>
+    </div>
+  )
+}
+
+export default page   
